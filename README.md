@@ -68,3 +68,22 @@ Vuelve a salir el listado de tareas pendientes</em></div>
 ---
 
 For Natural and Social Sciences hay que especificar el modo en que se plantearán los contenidos.
+
+Usual tasks:
+
+- Maths:
+
+  - Exercises sheets: the bot shows the image and the student gets the printing to work it.
+  - Mental arithmetic: the bot tells the student to sum or substract numbers, by voice or text.
+
+- Language:
+
+  - Dictatons: the bot reproduces the sound and the stundent writes the text.
+
+- English:
+
+  - Book exercises: the bot tells the student the exercises (s)he has to do.
+  - Vocabulary practice: the bot asks the student to write some vocabulary or repeat sentences.
+
+When it is finished, the student takes a photo of the paper and the bot sends it by mail to the teacher,
+that gives the exercise a qualification.
