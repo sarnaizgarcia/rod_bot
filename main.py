@@ -4,12 +4,14 @@ import telebot
 from telebot import types
 
 from get_daily_tasks import get_daily_tasks
+from get_task_data import get_task_data
+from planning import homework_planning
 from secrets import token
 
 bot = telebot.TeleBot(token)
 
-subjects = ['lectura', 'matemáticas', 'cc naturales', 'cc sociales',
-            'educación física', 'lengua', 'inglés', 'tecnología', 'música', 'plástica']
+subjects = ['lectura', 'matemáticas', 'naturales', 'sociales',
+            'educación física', 'lenguaje', 'inglés', 'tecnología', 'música', 'plástica']
 
 
 @bot.message_handler(commands=['start'])
@@ -33,7 +35,7 @@ def hide_command(message):
 
 
 @bot.message_handler(commands=['tareas'])
-def show_tasks(message):
+def select_subject(message):
     daily_tasks = get_daily_tasks()
     bot.send_message(
         message.chat.id, 'Hoy tenemos que trabajar estas asignaturas:')
@@ -50,12 +52,19 @@ def show_tasks(message):
         reply_markup=start_markup)
 
 
-# @bot.message_handler(commands=['subjects'])
-# def choose_task(message):
-#     start_markup = telebot.types.ReplyKeyboardMarkup(
-#         resize_keyboard=True, one_time_keyboard=False)
-#     for _ in subjects:
-#         start_markup.row(_)
+@bot.message_handler(commands=subjects)
+def get_tasks_detail(message):
+    subject_slash = message.text
+    subject = subject_slash[1:]
+    task_title = get_task_data('title', subject)
+    task_description = get_task_data('description', subject)
+    task_source = get_task_data('source', subject)
+    # chek what type of task is required for the subjet
+    # message.text es la asignatura que ha elegido
+    bot.send_message(message.chat.id, subject.upper())
+    bot.send_message(message.chat.id, task_title)
+    bot.send_message(message.chat.id, task_description)
+    bot.send_message(message.chat.id, task_source)
 
 
 # function that uploads work sheets
