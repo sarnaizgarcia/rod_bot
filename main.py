@@ -3,8 +3,7 @@ from datetime import date
 import telebot
 from telebot import types
 
-from get_daily_tasks import get_daily_tasks
-from get_task_data import get_task_data
+from tasks_manager import get_daily_tasks, get_task_data
 from planning import homework_planning
 from secrets import token
 
@@ -36,35 +35,46 @@ def hide_command(message):
 
 @bot.message_handler(commands=['tareas'])
 def select_subject(message):
-    daily_tasks = get_daily_tasks()
+    daily_tasks = get_daily_tasks()  # gets a list with the subjects
     bot.send_message(
-        message.chat.id, 'Hoy tenemos que trabajar estas asignaturas:')
+        message.chat.id, 'Hoy tenemos que trabajar estas asignaturas:')  # sends the list of subjects
     for x in daily_tasks:
         bot.send_message(message.chat.id, x)
-    start_markup = telebot.types.ReplyKeyboardMarkup(
+    subject_markup = telebot.types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=False)
     for subject in daily_tasks:
-        start_markup.row(f'/{subject}')
-    start_markup.row('/ocultar')
+        subject_markup.row(f'/{subject}')
+    subject_markup.row('/ocultar')
     bot.send_message(
         message.chat.id, '''¿Con cuál quieres comenzar?\
         \nRecuerda que puedes ocultar las opciones con /ocultar.''',
-        reply_markup=start_markup)
+        reply_markup=subject_markup)
 
 
 @bot.message_handler(commands=subjects)
 def get_tasks_detail(message):
+    # once a subject has been chosen, gives the details of the task
     subject_slash = message.text
     subject = subject_slash[1:]
     task_title = get_task_data('title', subject)
     task_description = get_task_data('description', subject)
     task_source = get_task_data('source', subject)
     # chek what type of task is required for the subjet
-    # message.text es la asignatura que ha elegido
     bot.send_message(message.chat.id, subject.upper())
     bot.send_message(message.chat.id, task_title)
     bot.send_message(message.chat.id, task_description)
     bot.send_message(message.chat.id, task_source)
+    finish_markup = telebot.types.ReplyKeyboardMarkup(
+        resize_keyboard=True, one_time_keyboard=True)
+    finish_markup.add('/terminar')
+    msg = bot.send_message(
+        message.chat.id, 'Si has terminado elige /terminar', reply_markup=finish_markup)
+    bot.register_next_step_handler(msg, finish_task)
+
+
+@bot.message_handler(commands=['terminar'])
+def finish_task(message):
+    pass
 
 
 # function that uploads work sheets
