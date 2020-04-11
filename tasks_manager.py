@@ -2,6 +2,8 @@ from datetime import date
 
 from planning import homework_planning
 
+today = str(date.today())
+
 
 def get_daily_tasks():
     """ Creates a list with the subjects to work in a day
@@ -12,7 +14,6 @@ def get_daily_tasks():
         A list of the subjects to work the current day
 
     """
-    today = str(date.today())
     daily_tasks = list()
     for x in homework_planning.get(today):
         if homework_planning.get(today).get(x).get('done') == False:
@@ -36,7 +37,6 @@ def get_task_data(key, subject):
     str
         A string with the data required
     """
-    today = str(date.today())
     task_data = homework_planning.get(
         today).get(subject).get(key)
     return task_data
@@ -47,9 +47,9 @@ def remove_subject(daily_tasks, subject):
 
     Parameters
     ----------
-    list
+    daily_tasks: list
         A list of subjects
-    str
+    subject: str
         Subject to remove
 
     Returns
@@ -63,15 +63,17 @@ def remove_subject(daily_tasks, subject):
     return daily_tasks
 
 
-def modify_task_state():
+def modify_task_state(subject):
     """ Changes the 'done' key of a task from False to True
 
     Parameters
     ----------
-    ???
+    subject: str
+        Subject whose state will change
 
     Returns
     -------
-    ???
+    True
     """
-    pass
+    homework_planning[today][subject]['done'] = True
+    return True
