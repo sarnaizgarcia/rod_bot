@@ -2,6 +2,11 @@ from random import randint
 
 
 def generate_numbers():
+    first_number, second_number = randint(0, 50), randint(0, 50)
+
+    first_list = create_digits_list(first_number)
+    second_list = create_digits_list(second_number)
+
     # función que obitene los números aleatorios
     # función que crea una lista con los dígitos de un número y los iguala en longitud
     # función que
@@ -31,20 +36,36 @@ def create_digits_list(number):
 
 
 def length_difference(list_a, list_b):
+    """ Compares the length of two lists and makes them the same length
+    Sees wich is shorter and makes it as long as the other
+
+    Parameters
+    ----------
+    list_a: list
+        First list to compare
+    list_b: list
+        Second list to compare
+
+    Returns
+    -------
+    list
+        The originally shorter list completed to the length of the other
+
+    """
     difference = len(list_a) - len(list_b)
     if difference == 0:
         return None
     if difference < 0:
         difference = difference * (-1)
-        new_list = extend_list(difference, list_a)
+        new_list = _extend_list(difference, list_a)
         return new_list
     if difference > 0:
-        new_list = extend_list(difference, list_b)
+        new_list = _extend_list(difference, list_b)
         return new_list
 
 
-def extend_list(positions, list_to_extend):
-    """ Extends the length of a list with zeros
+def _extend_list(positions, list_to_extend):
+    """ Extends the length of a list with zeros at the beginning
 
     Parameters
     ----------
@@ -64,5 +85,12 @@ def extend_list(positions, list_to_extend):
     return list_to_extend
 
 
-example = creates_digits_list(4930585)
+a = [6, 2, 8, 3]
+b = [3, 4, 5, 6, 8, 2, 3, 5, 6]
+c = [3, 4, 8, 4, 7, 5]
+
+example = create_digits_list(4930585)
 print(example)
+
+example_len = length_difference(a, b)
+print(example_len)
