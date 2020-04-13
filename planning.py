@@ -1,5 +1,5 @@
 homework_planning = {
-    '2020-04-11': {
+    '2020-04-13': {
         'matemáticas': {
             'title': 'Ficha 1 de Matemáticas',
             'description': 'Completa los ejercicios',
@@ -22,7 +22,7 @@ homework_planning = {
             'done': False,
         },
     },
-    '2020-04-12': {
+    '2020-04-14': {
         'lectura': {
             'title': 'Cuento Covid-19',
             'description': 'Lee el cuento',
