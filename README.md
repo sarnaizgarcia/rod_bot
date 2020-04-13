@@ -87,9 +87,3 @@ Usual tasks:
 
 When it is finished, the student takes a photo of the paper and the bot sends it by mail to the teacher,
 that gives the exercise a qualification.
-
-# https://www.freecodecamp.org/news/telegram-push-notifications-58477e71b2c2/
-
-# https://stackoverflow.com/questions/59166469/how-to-schedule-a-telegram-bot-to-send-a-message?noredirect=1&lq=1
-
-# https://www.programcreek.com/python/example/94889/telebot.TeleBot
