@@ -1,0 +1,9 @@
+# Task:
+# id
+# date
+# subject
+# title
+# description
+# source
+# type
+# done

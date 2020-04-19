@@ -9,6 +9,7 @@ from tasks_manager import (get_daily_tasks,
                            modify_task_state)
 from planning import homework_planning
 from secrets import token
+from controllers.user_creation import user_creation
 
 bot = telebot.TeleBot(token)
 
@@ -18,6 +19,12 @@ subjects = ['lectura', 'matemáticas', 'naturales', 'sociales',
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
+    print(f'{type(message.from_user.id)} - {type(message.from_user.first_name)}')
+    print(f'{message.from_user.id} - {message.from_user.first_name}')
+    # user_id = message.from_user.id
+    # user_name = message.from_user.first_name
+    user = user_creation(1, 'Pepe')
+    print(user)
     start_markup = telebot.types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=False)
     start_markup.row('/tareas', '/ayuda', '/ocultar')
@@ -40,16 +47,16 @@ def hide_command(message):
 def select_subject(message):
     daily_tasks = get_daily_tasks()  # gets a list with the subjects
     bot.send_message(
-        message.chat.id, 'Hoy tenemos que trabajar estas asignaturas:')  # sends the list of subjects
+        message.from_user.id, 'Hoy tenemos que trabajar estas asignaturas:')  # sends the list of subjects
     for x in daily_tasks:
-        bot.send_message(message.chat.id, x)
+        bot.send_message(message.from_user.id, x)
     subject_markup = telebot.types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=False)
     for subject in daily_tasks:
         subject_markup.row(f'/{subject}')
     subject_markup.row('/ocultar')
     bot.send_message(
-        message.chat.id, '''¿Cuál quieres hacer?\
+        message.from_user.id, '''¿Cuál quieres hacer?\
         \nRecuerda que puedes ocultar las opciones con /ocultar.''',
         reply_markup=subject_markup)
 
@@ -73,7 +80,7 @@ def get_tasks_detail(message):
         resize_keyboard=True, one_time_keyboard=True)
     finish_markup.add('/terminar')
     msg = bot.send_message(
-        message.chat.id, '''Si has terminado, pulsa /terminar.\
+        message.from_user.id, '''Si has terminado, pulsa /terminar.\
             \nPara ver de nuevo todas las tareas pendientes de hoy, /tareas.''',
         reply_markup=finish_markup)
     # bot.register_next_step_handler(msg, finish_task)
@@ -86,10 +93,10 @@ def finish_task(message):  # Por aquí tiene que pasar la asignatura
     updated_daily_tasks = remove_subject(daily_tasks, subject)
     if len(daily_tasks) > 0:
         bot.send_message(
-            message.chat.id, 'Para continuar con las demás tareas /tareas')
+            message.from_user.id, 'Para continuar con las demás tareas /tareas')
     if len(daily_tasks) == 0:
         bot.send_message(
-            message.chat.id, 'Has terminado por hoy ¡Buen trabajo!')
+            message.from_user.id, 'Has terminado por hoy ¡Buen trabajo!')
 
 
 bot.enable_save_next_step_handlers(delay=2)
