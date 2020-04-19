@@ -1,8 +1,6 @@
-# User:
-# id
-# name
-from db import (Base, Column, Integer,
-                String, ForeignKey, session, engine)
+from sqlalchemy import Column, Integer, String
+
+from db import Base
 
 
 class User(Base):
@@ -12,16 +10,9 @@ class User(Base):
     first_name = Column(String(15))
     from_user_id = Column(Integer)
 
-    def __init__(self, user_id, name):
-        self.user_id = user_id
-        self.name = name
-
-    def save(self):
-        session.add(self)
-        session.commit()
-
-    def __repr__(self):
-        return f'<User: name = {self.name}, id = {self.user_id}'
+    def __init__(self, first_name, from_user_id):
+        self.first_name = first_name
+        self.from_user_id = from_user_id
 
 
 # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Storing-bot,-user-and-chat-related-data
