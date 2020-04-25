@@ -9,7 +9,6 @@ from create_tables import session
 
 def create_user(first_name, from_user_id):
     user = User(first_name, from_user_id)
-    # check if user exists
-    session.add(user)
-    session.commit()
-    return user
+    if not session.query(User).filter(User.from_user_id == from_user_id).count():
+        session.add(user)
+        session.commit()
