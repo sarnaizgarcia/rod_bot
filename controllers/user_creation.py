@@ -1,17 +1,15 @@
-from db import Base, engine, Session
+# from db import Base, engine, Session
 from models.user_model import User
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
-session = Session()
+# session = Session()
+from create_tables import session
 
-silvia = User(1, 'silvia')
-adrian = User(2, 'adri')
-rober = User(100, 'rober')
 
-session.add(silvia)
-session.add(adrian)
-session.add(rober)
-
-session.commit()
-session.close()
+def create_user(first_name, from_user_id):
+    user = User(first_name, from_user_id)
+    # check if user exists
+    session.add(user)
+    session.commit()
+    return user

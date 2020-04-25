@@ -9,7 +9,7 @@ from tasks_manager import (get_daily_tasks,
                            modify_task_state)
 from planning import homework_planning
 from secrets import token
-from controllers.user_creation import user_creation
+from controllers.user_creation import create_user
 
 bot = telebot.TeleBot(token)
 
@@ -19,12 +19,9 @@ subjects = ['lectura', 'matemáticas', 'naturales', 'sociales',
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    print(f'{type(message.from_user.id)} - {type(message.from_user.first_name)}')
-    print(f'{message.from_user.id} - {message.from_user.first_name}')
-    # user_id = message.from_user.id
-    # user_name = message.from_user.first_name
-    user = user_creation(1, 'Pepe')
-    print(user)
+    user_id = message.from_user.id
+    user_name = message.from_user.first_name
+    user = create_user(user_name, user_id)
     start_markup = telebot.types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=False)
     start_markup.row('/tareas', '/ayuda', '/ocultar')
