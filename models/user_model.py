@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from db import Base
 
@@ -9,6 +10,12 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(15))
     from_user_id = Column(Integer)
+    tasks = Column(String)
+
+    # relationship(
+    #     'TaskUser',
+    #     backref='users'
+    # )
 
     def __init__(self, first_name, from_user_id):
         self.first_name = first_name
